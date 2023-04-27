@@ -20,18 +20,72 @@
     <parent>
         <artifactId>keycloak-parent</artifactId>
         <groupId>org.keycloak</groupId>
-        <version>999-SNAPSHOT</version>
+        <version>20.0.3</version>
         <!-- <relativePath /> -->
     </parent>
 
-    <name>Keycloak Examples</name>
+    <name>Keycloak Bulk User Query</name>
     <description/>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>keycloak-examples-parent</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>keycloak-bulk-user-query</artifactId>
+    <groupId>dev.rusatom.keycloak.modules</groupId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-model-jpa</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-server-spi</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-server-spi-private</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+            <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
+        <finalName>admin-bulkuser-rest</finalName>
+    	<plugins>
+	    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+        	<plugin>
+            <!-- https://github.com/wildfly/jandex-maven-plugin -->
+            	<groupId>org.jboss.jandex</groupId>
+            	<artifactId>jandex-maven-plugin</artifactId>
+            	<version>1.2.1</version>
+            	<executions>
+                	<execution>
+                    	<id>make-index</id>
+                    	<goals>
+                        <!-- phase is 'process-classes by default' -->
+                        	<goal>jandex</goal>
+                    	</goals>
+                	</execution>
+            	</executions>
+        	</plugin>
+	</plugins>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -43,23 +97,5 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
-    <modules>
-        <!-- <module>admin-client</module> -->
-        <module>providers</module>
-        <!-- <module>js-console</module>
-        <module>kerberos</module>
-        <module>themes</module>
-        <module>saml</module>
-        <module>ldap</module> -->
-    </modules>
 </project>
